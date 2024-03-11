@@ -46,7 +46,7 @@ func main() {
 		cardid, _:= c.Params.Get("id")
 		for index, card := range listOfCards {
 			if card.CardNumber == cardid{
-				listOfCards = append(listOfCards[:index], listOfCards[index + 1] )
+				listOfCards = append(listOfCards[:index], listOfCards[index+1:]... )
 			}
 		}
 		c.JSON(http.StatusOK, gin.H{
