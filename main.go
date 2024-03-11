@@ -18,7 +18,7 @@ type Dados struct{
 }
 func main() {
 
-	var listOfCards []Dados
+	var listOfCards = []Dados{}
 
 	
 	router := gin.Default()
@@ -37,26 +37,18 @@ func main() {
 	})
 
 	router.GET("/", func(c *gin.Context) {
-		var requestData = Dados{}
-		if err := c.BindJSON(&requestData); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-		listOfCards = append(listOfCards, requestData)
-		c.JSON(http.StatusOK, gin.H{
+			c.JSON(http.StatusOK, gin.H{
 			"data": listOfCards,
 		})
 	})
 
 	router.GET("delete/:id", func(c *gin.Context) {
-		var requestData = Dados{}
 		cardid, _:= c.Params.Get("id")
 		for index, card := range listOfCards {
 			if card.CardNumber == cardid{
 				listOfCards = append(listOfCards[:index], listOfCards[index + 1] )
 			}
 		}
-		listOfCards = append(listOfCards, requestData)
 		c.JSON(http.StatusOK, gin.H{
 			"data": listOfCards,
 		})
